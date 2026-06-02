@@ -1,0 +1,59 @@
+<h2>技术选型: 右侧详情面板第一版展示范围</h2>
+<p class="subtitle">左侧和中间主视角已经收敛。现在决定右侧详情面板第一版固定展示哪些信息。</p>
+
+<div class="options">
+  <div class="option" data-choice="minimal-status-only" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Minimal Status Only</h3>
+      <p>只显示当前状态和少量摘要。最轻，但不够支撑调试和理解 agent 边界。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="balanced-run-details" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Balanced Run Details</h3>
+      <p>显示状态、当前 agent、executor、permissions、budget、input request、metadata 摘要。适合作为第一版工作台右栏。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="full-inspector" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full Inspector</h3>
+      <p>一开始就显示完整 profile、全部 metadata、trace、环境变量、原始事件。能力全，但信息噪声太大。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px">
+      <div class="placeholder">Run status: running / waiting-for-input / completed</div>
+      <div class="placeholder">Agent: Builder Dog</div>
+      <div class="placeholder">Executor: Codex CLI</div>
+      <div class="placeholder">Permissions: shell full, filesystem workspace-write, network blocked</div>
+      <div class="placeholder">Budget: 12 steps, 900s, $0.80</div>
+      <div class="placeholder">Current input request: approval needed</div>
+      <div class="placeholder">Metadata summary: CLI version, workdir, startedAt</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>已经足够解释“这个 run 现在是什么、为什么这样跑”。</li>
+      <li>和 profile、runtime、CLI adapter 的关键边界正好对齐。</li>
+      <li>不会把右栏做成噪声很大的原始数据面板。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>深度调试时仍然要从时间线或后续 trace 视图取更多细节。</li>
+      <li>需要克制 metadata 展示，只给摘要，不给全量 dump。</li>
+    </ul>
+  </div>
+</div>

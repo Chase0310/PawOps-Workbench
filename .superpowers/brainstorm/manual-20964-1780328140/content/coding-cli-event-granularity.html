@@ -1,0 +1,60 @@
+<h2>技术选型: CLI Adapter 统一事件粒度</h2>
+<p class="subtitle">适配器已经确定为 session-oriented。现在决定统一事件要压到多粗，才能既够用又不泄漏太多底层差异。</p>
+
+<div class="options">
+  <div class="option" data-choice="raw-stream-events" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Raw Stream Events</h3>
+      <p>几乎直接转发 stdout、stderr、exit。实现快，但 runtime 和 UI 要理解太多底层差异。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="normalized-session-events" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Normalized Session Events</h3>
+      <p>统一成 started、output.chunk、input.requested、status、completed、failed、interrupted 这类会话事件。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="semantic-high-level-events" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Semantic High-level Events</h3>
+      <p>适配器尝试直接产出 plan.updated、file.edited、task.finished 这类高语义事件。表达强，但误判风险高。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>started</div>
+      <div>output.chunk { stream, text }</div>
+      <div>input.requested { kind, prompt? }</div>
+      <div>status.changed { status, detail? }</div>
+      <div>warning { code, message }</div>
+      <div>completed { summary?, exitCode? }</div>
+      <div>failed { reason, exitCode? }</div>
+      <div>interrupted { mode: soft | hard }</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>对 Workbench 和 runtime 足够稳定，不依赖某家 CLI 的原始输出格式。</li>
+      <li>仍然保留流式输出和等待输入这些关键交互。</li>
+      <li>不会过早假设 CLI 能可靠提供高语义结构。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>部分 CLI 特有细节会被折叠掉。</li>
+      <li>如果后面真要做高语义分析，需要在更上层二次派生。</li>
+    </ul>
+  </div>
+</div>

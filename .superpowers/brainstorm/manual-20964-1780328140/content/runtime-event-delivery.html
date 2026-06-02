@@ -1,0 +1,56 @@
+<h2>技术选型: Runtime 事件投递接口</h2>
+<p class="subtitle">我们已经确认 runtime 会发结构化事件。现在决定调用方怎么消费这些事件。</p>
+
+<div class="options">
+  <div class="option" data-choice="callback-subscribe" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Callback Subscribe</h3>
+      <p>通过 subscribe(listener) 接收事件。最直观，最适合桌面嵌入和 Web wrapper。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="async-iterable" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>AsyncIterable Stream</h3>
+      <p>通过 for await 消费事件流。组合性强，但前端和 UI 层接入不如 callback 直接。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="both-forms" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Both Forms</h3>
+      <p>同时提供 subscribe(listener) 和事件流接口。能力完整，但第一版 API 面会更大。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: A first</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">runHandle.subscribe(listener)</div>
+      <div class="placeholder">listener receives typed RuntimeEvent</div>
+      <div class="placeholder">desktop UI and debug server can forward events easily</div>
+      <div class="placeholder">later: derive AsyncIterable if real demand appears</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why A fits</h4>
+    <ul>
+      <li>和 Method API 风格一致。</li>
+      <li>Electron、WebSocket、SSE 包装都很顺。</li>
+      <li>比一次性暴露多种消费范式更克制。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>流式组合能力不如 AsyncIterable 自然。</li>
+      <li>后续如果需要复杂管道，可能再补第二种消费接口。</li>
+    </ul>
+  </div>
+</div>

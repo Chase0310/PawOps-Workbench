@@ -1,0 +1,39 @@
+<h2>技术选型: 第一层 Runtime 基线</h2>
+<p class="subtitle">先决定 TypeScript 运行时和工程基线，再讨论 UI、存储、事件、测试。</p>
+
+<div class="options">
+  <div class="option" data-choice="node-pnpm" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Node.js + pnpm</h3>
+      <p>最稳妥的 TS 基线。生态、MCP、CLI 子进程、测试、打包、桌面/服务端扩展都成熟。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="bun" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Bun First</h3>
+      <p>开发体验快，内置工具多，但长期进程、兼容性和 MCP/CLI 边缘场景要额外验证。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="deno" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Deno</h3>
+      <p>权限模型和 TS 体验好，但 Node 生态、npm 包兼容、coding CLI 集成会更受约束。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐路径</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">Runtime: Node.js active LTS</div>
+      <div class="placeholder">Package manager: pnpm workspace</div>
+      <div class="placeholder">Language: TypeScript strict mode</div>
+      <div class="placeholder">Core packages: runtime-core, agent-profile, cli-adapter</div>
+      <div class="placeholder">Later: workbench UI, storage, channel adapters</div>
+    </div>
+  </div>
+</div>

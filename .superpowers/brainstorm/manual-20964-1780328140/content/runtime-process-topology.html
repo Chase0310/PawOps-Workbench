@@ -1,0 +1,38 @@
+<h2>下一层: Runtime 进程拓扑</h2>
+<p class="subtitle">已确认 pnpm workspace。现在决定 AgentRuntime 在 Web 调试和桌面端里如何运行。</p>
+
+<div class="options">
+  <div class="option" data-choice="embedded-electron-main" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Embedded in Electron Main</h3>
+      <p>桌面端直接在 Electron main process 中启动 runtime；Web 调试另起 dev server/runtime。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="local-daemon" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Local Runtime Daemon</h3>
+      <p>runtime 是独立本地服务；Web 和 Desktop 都通过 HTTP/WebSocket 连接它。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="hybrid-package" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Hybrid: Shared Runtime Package</h3>
+      <p>runtime core 是纯 package；桌面可嵌入，开发可用本地 dev server 包一层 API。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: C</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">packages/runtime-core: pure TypeScript runtime library</div>
+      <div class="placeholder">apps/desktop: Electron main imports runtime-core</div>
+      <div class="placeholder">apps/web: debug UI connects to dev API wrapper</div>
+      <div class="placeholder">packages/runtime-server: optional HTTP/WebSocket wrapper</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<h2>技术选型: Coding CLI Adapter 第一版支持范围</h2>
+<p class="subtitle">Runtime 和 Agent Profile 主骨架已基本收敛。现在决定第一版 CLI 适配层先支持哪些执行器。</p>
+
+<div class="options">
+  <div class="option" data-choice="single-cli" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Single CLI First</h3>
+      <p>第一版只支持一个 coding CLI，最快跑通，但平台价值和抽象验证都有限。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="small-curated-set" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Small Curated Set</h3>
+      <p>第一版支持 2-3 个最典型的 coding CLI，验证统一适配接口是否成立。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="open-adapter-market" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Open Adapter Market</h3>
+      <p>一开始就面向任意 CLI 开放注册。扩展性最强，但第一版边界会非常松散。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">v1 adapter targets: Codex CLI, Claude Code, Gemini CLI</div>
+      <div class="placeholder">all adapters implement the same executor-facing contract</div>
+      <div class="placeholder">focus on launch, stream output, waiting-for-input, interrupt, exit semantics</div>
+      <div class="placeholder">defer long-tail CLIs until the base contract is proven</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>已经能验证“统一 executor 接口”是否站得住。</li>
+      <li>比单一 CLI 更能暴露适配层真正的共性和差异。</li>
+      <li>还能把第一版范围控制在可落地区间。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>要处理 2-3 种 CLI 的行为差异。</li>
+      <li>第一版不追求通用插件市场或任意命令兼容。</li>
+    </ul>
+  </div>
+</div>

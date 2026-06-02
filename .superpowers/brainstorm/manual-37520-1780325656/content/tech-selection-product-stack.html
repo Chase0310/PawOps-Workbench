@@ -1,0 +1,39 @@
+<h2>技术选型: Web + Desktop 产品形态</h2>
+<p class="subtitle">目标是 Web 便于调试，桌面端便于分发和访问本地开发环境。</p>
+
+<div class="options">
+  <div class="option" data-choice="electron-react-node" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Electron + React + Node/TypeScript</h3>
+      <p>最主流、AI 最熟悉、拉起本地 CLI 最顺。缺点是桌面包体和内存更大。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="tauri-react-node" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Tauri + React + Node Sidecar</h3>
+      <p>桌面更轻，但会引入 Rust/Tauri 配置和 sidecar 打包复杂度。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="python-react-desktop" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Python Runtime + React Desktop Shell</h3>
+      <p>Agent/AI 生态强，但 Web/desktop/CLI 分发会变成 Python + JS 双栈。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: A</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">Shared UI: React + Vite</div>
+      <div class="placeholder">Web Debug App: browser connects to local/dev runtime</div>
+      <div class="placeholder">Desktop App: Electron main process hosts local runtime</div>
+      <div class="placeholder">Runtime Core: Node/TypeScript service modules</div>
+      <div class="placeholder">Adapters: coding CLI, MCP, channels, storage</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<h2>下一层: Memory / Log / Trace 存储基线</h2>
+<p class="subtitle">Runtime core 不直接绑定存储，但第一版需要一个默认落地方式。</p>
+
+<div class="options">
+  <div class="option" data-choice="memory-only" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>In-memory First</h3>
+      <p>最快实现，适合测试 runtime core，但重启后丢失，不适合桌面产品。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="sqlite" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>SQLite Local Store</h3>
+      <p>本地优先、可分发、能记录 runs/events/logs/traces，适合桌面端和 Web 调试。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="postgres" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Postgres First</h3>
+      <p>适合多人和服务端部署，但第一版本地桌面分发会更重。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B + Test Adapter</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">runtime-core: depends on Store interfaces only</div>
+      <div class="placeholder">runtime-testing: in-memory store for tests</div>
+      <div class="placeholder">runtime-sqlite: local durable store for desktop/debug</div>
+      <div class="placeholder">later: Postgres adapter for hosted/multi-user mode</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<h2>技术选型: 中间主面板以事件时间线为主还是以对话输出为主</h2>
+<p class="subtitle">左侧结构已经收敛。现在决定第一版中间面板的核心阅读模式。</p>
+
+<div class="options">
+  <div class="option" data-choice="conversation-first" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Conversation / Output First</h3>
+      <p>主面板先展示 agent 输出、CLI 内容和人机交互，对事件细节做弱化。更像聊天或终端。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="timeline-first" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Event Timeline First</h3>
+      <p>主面板按时间线展示 run 的关键事件，输出内容作为时间线中的一种事件展开。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="dual-mode" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Dual Mode</h3>
+      <p>第一版就提供“时间线 / 输出”双视图切换。更灵活，但 UI 和状态复杂度也更高。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px">
+      <div class="placeholder">09:41 runtime.started</div>
+      <div class="placeholder">09:41 step.started</div>
+      <div class="placeholder">09:42 output.chunk - Codex analyzing repository...</div>
+      <div class="placeholder">09:42 status.changed - waiting-for-input</div>
+      <div class="placeholder">09:43 input.requested - approval needed</div>
+      <div class="placeholder">09:44 output.chunk - resumed after input</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>和我们前面定义的 typed events 完全对齐。</li>
+      <li>Workbench 第一版更偏调试与编排，不只是聊天界面。</li>
+      <li>输出仍然能展示，但被放在更完整的运行上下文里。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>比纯聊天输出界面对普通用户稍微技术化一些。</li>
+      <li>要控制时间线密度，避免刷屏式噪声。</li>
+    </ul>
+  </div>
+</div>

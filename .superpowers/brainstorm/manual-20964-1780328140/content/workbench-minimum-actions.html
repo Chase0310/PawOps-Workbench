@@ -1,0 +1,57 @@
+<h2>技术选型: Workbench 第一版最小交互动作</h2>
+<p class="subtitle">三栏布局和主视图都收敛了。现在决定第一版工作台用户可以直接执行哪些动作。</p>
+
+<div class="options">
+  <div class="option" data-choice="read-only-monitor" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Read-only Monitor</h3>
+      <p>只能看 agent、run、事件和详情，所有操作仍通过外部 CLI 或开发接口进行。实现最轻，但工作台价值有限。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="essential-runtime-actions" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Essential Runtime Actions</h3>
+      <p>支持启动 run、提交输入、取消 run、切换 agent、查看历史。第一版已具备基本闭环。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="full-control-console" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full Control Console</h3>
+      <p>一开始就支持 agent 编辑、profile 管理、权限修改、预算调整、trace 导出等完整控制能力。明显过重。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px">
+      <div class="placeholder">Start run with selected agent</div>
+      <div class="placeholder">View active and recent runs</div>
+      <div class="placeholder">Submit structured input when waiting-for-input</div>
+      <div class="placeholder">Cancel run</div>
+      <div class="placeholder">Switch between agents and runs</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>工作台已经能真正驱动 runtime，而不只是观测。</li>
+      <li>和前面定义的 Method API、structured input、cancel 模型完全对应。</li>
+      <li>足以验证桌面端和 Web 调试端的主要交互闭环。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>要做最小表单和动作反馈，而不只是订阅事件。</li>
+      <li>第一版仍然不做 profile 编辑和高级配置流。</li>
+    </ul>
+  </div>
+</div>

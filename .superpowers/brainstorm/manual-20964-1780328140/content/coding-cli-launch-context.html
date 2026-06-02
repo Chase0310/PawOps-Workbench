@@ -1,0 +1,60 @@
+<h2>技术选型: CLI launch(context) 第一版上下文字段</h2>
+<p class="subtitle">适配器事件已经定了。现在决定 runtime 启动 Codex CLI 或 Claude Code 时，要统一提供哪些上下文。</p>
+
+<div class="options">
+  <div class="option" data-choice="minimal-launch-context" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Minimal Context</h3>
+      <p>只传工作目录和初始输入。实现最简单，但很快不够表达权限、环境和 profile 差异。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="balanced-launch-context" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Balanced Context</h3>
+      <p>传入 runId、workdir、initialPrompt、env、profile summary、permissions、budget、metadata。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="rich-launch-context" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Rich Context</h3>
+      <p>一开始就把 memory snapshot、trace config、tool registry、full structured policy 全塞进 launch context。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>runId</div>
+      <div>workdir</div>
+      <div>initialPrompt</div>
+      <div>env</div>
+      <div>profileSummary</div>
+      <div>permissions</div>
+      <div>budget</div>
+      <div>metadata</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>已经能表达 profile 与 runtime 对执行器的关键约束。</li>
+      <li>不会让 adapter 自己回头查太多外部状态。</li>
+      <li>比最小上下文更适合 Codex CLI 和 Claude Code 的真实使用。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>需要明确哪些字段是 runtime 保证提供，哪些是可选。</li>
+      <li>不能把 context 膨胀成“整个 run 世界快照”。</li>
+    </ul>
+  </div>
+</div>

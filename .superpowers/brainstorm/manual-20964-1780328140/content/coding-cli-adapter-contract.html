@@ -1,0 +1,67 @@
+<h2>技术选型: Codex / Claude Code 适配器统一接口</h2>
+<p class="subtitle">第一版只支持 Codex CLI 和 Claude Code CLI。现在决定它们共享的 adapter contract 长什么样。</p>
+
+<div class="options">
+  <div class="option" data-choice="process-wrapper-only" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Process Wrapper Only</h3>
+      <p>适配器只暴露 spawn、stdin、stdout、kill。最薄，但 runtime 需要自己理解大量细节。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="session-oriented-adapter" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Session-oriented Adapter</h3>
+      <p>适配器暴露 launch、sendInput、interrupt、dispose，并把 CLI 行为翻译成统一会话事件。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="full-conversation-engine" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full Conversation Engine</h3>
+      <p>适配器自己维护大量对话语义和状态机，runtime 只接收高层结果。过早把复杂度推到适配层。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>adapter.launch(context) -&gt; session</div>
+      <div>session.subscribe(listener)</div>
+      <div>session.sendInput(input)</div>
+      <div>session.softInterrupt()</div>
+      <div>session.hardKill()</div>
+      <div>session.dispose()</div>
+      <div></div>
+      <div>normalized events:</div>
+      <div style="padding-left:18px">started</div>
+      <div style="padding-left:18px">output.chunk</div>
+      <div style="padding-left:18px">input.requested</div>
+      <div style="padding-left:18px">warning</div>
+      <div style="padding-left:18px">completed</div>
+      <div style="padding-left:18px">failed</div>
+      <div style="padding-left:18px">interrupted</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>runtime 不必直接处理原始子进程细节。</li>
+      <li>Codex CLI 和 Claude Code 的差异可以在 adapter 内部消化。</li>
+      <li>又不会让 adapter 演变成比 runtime 更重的系统。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>需要先定义一套统一会话事件。</li>
+      <li>两个 CLI 的输入/输出语义不一致时，要做保守归一化。</li>
+    </ul>
+  </div>
+</div>

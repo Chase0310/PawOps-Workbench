@@ -1,0 +1,57 @@
+<h2>技术选型: Runtime 控制面</h2>
+<p class="subtitle">事件流已经定为结构化事件。现在决定外部如何驱动 runtime。</p>
+
+<div class="options">
+  <div class="option" data-choice="method-api" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Imperative Method API</h3>
+      <p>通过方法调用控制 runtime，例如 startRun、cancelRun、subscribe。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="command-bus" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Command Bus</h3>
+      <p>外部把 start、cancel、resume 都作为命令投递给 runtime，由内部命令总线执行。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="state-machine-first" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>State Machine First</h3>
+      <p>外部只做状态变更请求，runtime 按状态机推进执行，适合更重的后台系统。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: A with explicit run handles</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">createRuntime(services, profiles)</div>
+      <div class="placeholder">runtime.startRun(input) -&gt; runHandle</div>
+      <div class="placeholder">runHandle.subscribe(listener)</div>
+      <div class="placeholder">runHandle.cancel() / pause() / resume()</div>
+      <div class="placeholder">runtime.listRuns() / getRun(runId)</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why A fits now</h4>
+    <ul>
+      <li>最适合嵌入式 package 形态。</li>
+      <li>Electron 和 Web debug wrapper 都容易包一层 API。</li>
+      <li>先做清晰对象模型，后面仍可映射到 HTTP 或 command bus。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>分布式和多进程场景下需要再包一层 transport。</li>
+      <li>如果一开始就追求强状态机，A 不如 C 那么“后端化”。</li>
+    </ul>
+  </div>
+</div>

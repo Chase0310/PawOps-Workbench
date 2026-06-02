@@ -1,0 +1,40 @@
+<h2>模块级设计流程</h2>
+<p class="subtitle">每个模块都先讨论清楚，再写成 spec；spec 只写稳定边界，不写易过期实现细节。</p>
+
+<div class="mockup">
+  <div class="mockup-header">Per Module Loop</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">1. 用户场景: 谁在什么开发场景下使用这个模块，要完成什么事</div>
+      <div class="placeholder">2. 能力边界: 要解决什么，不解决什么，什么算完成</div>
+      <div class="placeholder">3. 方案选项: 2-3 个可行方案，每个都有代价</div>
+      <div class="placeholder">4. Tradeoff 决策: 选择一个方案，并记录为什么不是其他方案</div>
+      <div class="placeholder">5. Spec: 写稳定设计，包括目标、能力、非目标、骨架、验收标准</div>
+      <div class="placeholder">6. Tasks + Checklist: 再拆任务和可验证清单</div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="runtime-core" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>先讨论 AgentRuntime Core</h3>
+      <p>单 agent 的 lifecycle、loop、服务挂载、事件流、停止条件。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="profile" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>先讨论 Agent Profile</h3>
+      <p>每只狗狗 agent 的定义方式：prompt、skills、MCP、模型、权限、预算。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="cli-adapter" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>先讨论 Coding CLI Adapter</h3>
+      <p>如何拉起 Codex/Claude Code/Gemini CLI，如何读输出、发输入、终止和审计。</p>
+    </div>
+  </div>
+</div>

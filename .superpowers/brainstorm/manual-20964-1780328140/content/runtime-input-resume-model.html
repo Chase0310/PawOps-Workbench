@@ -1,0 +1,56 @@
+<h2>技术选型: Waiting-for-input 恢复模型</h2>
+<p class="subtitle">生命周期已经包含 waiting-for-input。现在决定外部输入回来后，run 如何恢复执行。</p>
+
+<div class="options">
+  <div class="option" data-choice="raw-input-forward" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Raw Input Forward</h3>
+      <p>外部直接把文本输入转发给 executor。实现最快，但 runtime 很难理解输入语义。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="structured-input-command" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Structured Input Resume</h3>
+      <p>runtime 接收结构化输入，如 reply、approve、reject、provide-secret，再恢复 run。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="executor-owned-dialog" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Executor-owned Dialog</h3>
+      <p>输入对话几乎完全由 executor 自己维护，runtime 只转发消息。最灵活，但 runtime 会失去统一交互语义。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">run enters waiting-for-input with inputRequest metadata</div>
+      <div class="placeholder">UI renders expected input type and prompt</div>
+      <div class="placeholder">runtime.submitInput(runId, input)</div>
+      <div class="placeholder">runtime validates input shape, emits resume event, hands payload to executor</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>Workbench 可以理解“这次在等什么输入”。</li>
+      <li>以后不止 CLI executor 时，交互语义还能统一。</li>
+      <li>审批、补充参数、补 secret 都能走同一模型。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>第一版要先定义少量输入类型。</li>
+      <li>不能把输入协议设计得过大，否则会反向绑死 executor。</li>
+    </ul>
+  </div>
+</div>

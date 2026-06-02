@@ -1,0 +1,44 @@
+<h2>AgentRuntime First</h2>
+<p class="subtitle">第一版先跑通单个 agent runtime，把 memory、log、trace、MCP、skills 做成可挂载服务。</p>
+
+<div class="mockup">
+  <div class="mockup-header">Runtime Core Boundary</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:12px">
+      <div class="placeholder">AgentRuntime Core: lifecycle, loop, step control, stop conditions</div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+        <div class="placeholder">Memory Service</div>
+        <div class="placeholder">Log Service</div>
+        <div class="placeholder">Trace Service</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+        <div class="placeholder">Skill Registry</div>
+        <div class="placeholder">MCP Registry</div>
+        <div class="placeholder">Tool Registry</div>
+      </div>
+      <div class="placeholder">Execution Adapter: local shell / coding CLI / model provider</div>
+      <div class="placeholder">Event Stream: runtime.started, step, tool.call, trace, log, completed</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>这个边界的好处</h4>
+    <ul>
+      <li>单 agent 可以独立测试和运行</li>
+      <li>多 agent 只是多个 runtime 的编排</li>
+      <li>Workbench 只订阅事件流，不侵入核心</li>
+      <li>memory/log/trace 可以先内存实现，后续替换成 DB/OTel</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>第一版先不做</h4>
+    <ul>
+      <li>复杂多 agent 调度</li>
+      <li>完整消息通道矩阵</li>
+      <li>复杂权限系统</li>
+      <li>跨机器 worker 池</li>
+    </ul>
+  </div>
+</div>

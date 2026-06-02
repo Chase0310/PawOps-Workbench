@@ -1,0 +1,38 @@
+<h2>第一版范围怎么切？</h2>
+<p class="subtitle">先决定 MVP 的重心，后面的架构边界、存储、消息通道和 UI 都会跟着这个选择变化。</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Agent Runtime First</h3>
+      <p>先做本地多 agent 编排内核、agent/skill/MCP 配置模型、CLI 进程适配和事件流；UI 只做最小可观测面板。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Workbench First</h3>
+      <p>先做可用工作台：agent 列表、会话、任务看板、终端视图、消息流；底层 runtime 保持够用但不追求插件化完备。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Integration Hub First</h3>
+      <p>先做 CLI 工具和消息通道接入层，让 Codex、Claude Code、Gemini CLI、Slack/Discord/飞书等能统一进出。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">建议的长期分层</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">Workbench UI / Channels</div>
+      <div class="placeholder">Orchestrator: tasks, sessions, routing, approvals</div>
+      <div class="placeholder">Agent Runtime: agent profiles, skills, MCP, memory, permissions</div>
+      <div class="placeholder">Adapters: Coding CLIs, shells, repos, issue trackers, chat platforms</div>
+    </div>
+  </div>
+</div>

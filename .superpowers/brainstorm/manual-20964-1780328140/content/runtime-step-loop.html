@@ -1,0 +1,57 @@
+<h2>技术选型: Runtime 执行循环</h2>
+<p class="subtitle">控制面、生命周期、事件模型都定了。现在决定 run 在 running 状态下如何推进 step。</p>
+
+<div class="options">
+  <div class="option" data-choice="sync-loop" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Synchronous Step Loop</h3>
+      <p>startRun 后内部 while-loop 顺序推进，直到完成或失败。实现最简单，但中断和等待输入的处理会偏硬。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="cooperative-loop" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Cooperative Step Loop</h3>
+      <p>每个 step 在边界处检查 cancel、pause、waiting-for-input，再决定下一步。适合本地 runtime 和交互式工作流。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="queued-actor-loop" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Queued Actor Loop</h3>
+      <p>每个 run 像 actor 一样靠消息推进。并发和恢复能力更强，但第一版明显过重。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">step start -&gt; emit event</div>
+      <div class="placeholder">execute tool or CLI work</div>
+      <div class="placeholder">checkpoint state</div>
+      <div class="placeholder">check cancel / pause / waiting-for-input</div>
+      <div class="placeholder">advance to next step or terminal state</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>和我们选的交互式 lifecycle 一致。</li>
+      <li>适合 coding CLI 这种会流式输出、可能等待输入的执行器。</li>
+      <li>比纯同步循环更容易支持 cancel 和 pause。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>比最简单的 while-loop 多一层 step 边界约束。</li>
+      <li>需要先定义什么算一个 step。</li>
+    </ul>
+  </div>
+</div>

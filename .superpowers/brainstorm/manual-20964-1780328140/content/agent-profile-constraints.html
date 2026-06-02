@@ -1,0 +1,61 @@
+<h2>技术选型: Permissions 与 Budget 的第一版粒度</h2>
+<p class="subtitle">Profile 已经确定会带 permissions 和 budget。现在决定这两个字段第一版要建模到多细。</p>
+
+<div class="options">
+  <div class="option" data-choice="coarse-grained" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Coarse-grained</h3>
+      <p>只做粗粒度开关，例如 allowShell、allowWrite、allowNetwork、maxRuntimeMinutes。最容易跑通。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="balanced-constraints" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Balanced Constraints</h3>
+      <p>权限按能力域划分，预算按时间、步骤、token 或成本上限建模。适合第一版稳定落地。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="fine-grained-policy" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Fine-grained Policy</h3>
+      <p>一开始就支持路径级、命令级、工具级、网络目标级白名单，以及复杂配额策略。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>permissions:</div>
+      <div style="padding-left:18px">shell: none | read-only | full</div>
+      <div style="padding-left:18px">filesystem: read-only | workspace-write</div>
+      <div style="padding-left:18px">network: blocked | allowed</div>
+      <div style="padding-left:18px">mcp: allowedServerIds[]</div>
+      <div>budget:</div>
+      <div style="padding-left:18px">maxRunSeconds</div>
+      <div style="padding-left:18px">maxSteps</div>
+      <div style="padding-left:18px">maxCostUsd? or maxTokens?</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>比粗粒度更真实，已经能限制危险能力。</li>
+      <li>比细粒度策略轻很多，不会把第一版拖进策略系统。</li>
+      <li>和 CLI executor、MCP server、runtime lifecycle 都能对齐。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>仍然需要 runtime 和 executor 一起遵守这些约束。</li>
+      <li>路径级白名单、命令级策略等高级能力要后置。</li>
+    </ul>
+  </div>
+</div>

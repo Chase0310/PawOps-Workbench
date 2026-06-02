@@ -1,0 +1,56 @@
+<h2>技术选型: Agent Profile 发现与加载</h2>
+<p class="subtitle">Profile 格式已基本收敛。现在决定 runtime 如何找到、校验并注册这些 agent。</p>
+
+<div class="options">
+  <div class="option" data-choice="filesystem-scan" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Filesystem Scan</h3>
+      <p>启动时扫描约定目录，读取 manifest 并注册。最直观，最适合本地桌面和开发场景。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="explicit-registration" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Explicit Registration</h3>
+      <p>调用方显式传入 profile 列表或 registry。控制力强，但扩展和插件体验较差。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="hybrid-loader" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Hybrid Loader</h3>
+      <p>runtime 既支持扫描目录，也支持调用方直接注册 profile。兼顾桌面体验和嵌入式集成。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: C</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">desktop mode: scan local profiles directory</div>
+      <div class="placeholder">tests or embedded mode: register profiles programmatically</div>
+      <div class="placeholder">all profiles pass schema validation before registration</div>
+      <div class="placeholder">runtime builds a stable profile registry from validated manifests</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why C fits</h4>
+    <ul>
+      <li>本地目录管理 agent 很自然，适合桌面产品。</li>
+      <li>测试和嵌入模式不必依赖文件系统扫描。</li>
+      <li>比纯扫描更容易控制加载顺序和注入测试 profile。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>要维护两种入口，但底层注册逻辑必须保持同一套。</li>
+      <li>需要定义扫描目录、覆盖规则和冲突处理。</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<h2>技术选型: Agent Profile 第一版字段边界</h2>
+<p class="subtitle">Profile 的发现方式已经定了。现在决定 manifest 第一版必须包含哪些字段。</p>
+
+<div class="options">
+  <div class="option" data-choice="minimal-fields" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Minimal Fields</h3>
+      <p>只保留最小集合：id、name、executor、prompt、skills。最快，但很快会不够。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="balanced-fields" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Balanced Fields</h3>
+      <p>包含身份、执行器、提示、skills、MCP、权限、预算和标签。适合作为第一版稳定骨架。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="rich-fields" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Rich Fields</h3>
+      <p>一开始就加 memory policy、trace policy、tool overrides、hooks、routing rules、channel policy。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>id</div>
+      <div>name</div>
+      <div>role</div>
+      <div>description</div>
+      <div>executor</div>
+      <div>prompt</div>
+      <div>skills[]</div>
+      <div>mcpServers[]</div>
+      <div>permissions</div>
+      <div>budget</div>
+      <div>tags[]</div>
+      <div>disabled?: boolean</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>已经能表达大多数狗狗 agent 的稳定身份和能力边界。</li>
+      <li>不会太轻，避免很快回头改 schema。</li>
+      <li>也不会太重，避免把所有运行时策略都塞进 profile。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>有些高级策略先不进 profile，要延后到 runtime 或 hook 层。</li>
+      <li>权限和预算字段要先定义一个足够克制的模型。</li>
+    </ul>
+  </div>
+</div>

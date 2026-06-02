@@ -1,0 +1,56 @@
+<h2>技术选型: Runtime 与 Executor 的职责边界</h2>
+<p class="subtitle">已经确认用统一执行器接口。现在决定执行器到底是“黑盒过程”还是“受 runtime 驱动的协作单元”。</p>
+
+<div class="options">
+  <div class="option" data-choice="opaque-executor" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Opaque Executor</h3>
+      <p>executor 像黑盒任务，runtime 只负责启动、收输出、取消和结束。最容易兼容外部 CLI。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="cooperative-executor" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Cooperative Executor</h3>
+      <p>runtime 负责 run 生命周期、事件、状态；executor 负责实际执行，并在 step 边界上配合 pause、input、interrupt。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="autonomous-executor" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Autonomous Executor</h3>
+      <p>executor 自己维护主要状态机，runtime 更像外层壳。适合复杂引擎，但会削弱 runtime-core 的中心地位。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">Runtime owns run state, events, persistence, cancellation policy</div>
+      <div class="placeholder">Executor owns concrete execution mechanics</div>
+      <div class="placeholder">Executor reports output, waits-for-input, completion, error</div>
+      <div class="placeholder">Runtime translates these into domain events and lifecycle transitions</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>不把 runtime 降级成简单的 process wrapper。</li>
+      <li>也不强迫 CLI executor 暴露过多内部细节。</li>
+      <li>以后新增 model-loop executor 时，边界还能复用。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>需要认真设计 executor 回调和状态上报接口。</li>
+      <li>step 边界的定义必须保持克制。</li>
+    </ul>
+  </div>
+</div>

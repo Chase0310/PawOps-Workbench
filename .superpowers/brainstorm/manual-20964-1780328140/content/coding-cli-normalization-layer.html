@@ -1,0 +1,56 @@
+<h2>技术选型: CLI 差异归一化在哪一层处理</h2>
+<p class="subtitle">launch(context) 已经收敛。现在决定 Codex CLI 和 Claude Code CLI 的行为差异应该在哪一层被吸收。</p>
+
+<div class="options">
+  <div class="option" data-choice="runtime-absorbs-differences" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Runtime Absorbs Differences</h3>
+      <p>adapter 只做最薄封装，差异主要由 runtime 理解和处理。实现快，但 runtime 会被 CLI 细节污染。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="adapter-normalizes" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Adapter Normalizes</h3>
+      <p>每个 adapter 内部吸收启动参数、输出格式、输入等待和中断差异，对上统一 contract。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="external-compat-layer" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>External Compat Layer</h3>
+      <p>单独做一层 CLI compatibility layer，再由 adapter 调用。长期可扩展，但第一版层次偏多。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">runtime only sees unified session contract</div>
+      <div class="placeholder">codex adapter handles Codex-specific launch and output quirks</div>
+      <div class="placeholder">claude adapter handles Claude-specific prompt/input/interrupt quirks</div>
+      <div class="placeholder">future adapters follow the same normalization boundary</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>保护 runtime-core 不被具体 CLI 污染。</li>
+      <li>统一 contract 的价值真正落在 adapter 层。</li>
+      <li>后续加第三个 CLI 时，不需要改 runtime 语义。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>adapter 实现会比简单 process wrapper 更厚一点。</li>
+      <li>需要定义什么差异必须归一化，什么可以保留为 metadata。</li>
+    </ul>
+  </div>
+</div>

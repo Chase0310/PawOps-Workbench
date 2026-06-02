@@ -1,0 +1,89 @@
+<h2>技术选型: Workbench 第一版最小视图集</h2>
+<p class="subtitle">前面的 runtime、profile、CLI adapter 主骨架已经基本清楚。现在决定第一版工作台最少必须呈现哪些界面。</p>
+
+<div class="options">
+  <div class="option" data-choice="single-console-view" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Single Console View</h3>
+      <p>只有一个运行控制台，展示当前 run 的事件和输出。实现最快，但无法很好管理多个 agent 和历史 run。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="three-pane-workbench" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Three-pane Workbench</h3>
+      <p>左侧 agent 与 run 列表，中间当前 run 事件流，右侧详情面板。第一版已经具备工作台形态。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="full-dashboard" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full Dashboard</h3>
+      <p>一开始就做 agent 市场、trace 视图、配置页、历史分析等完整控制台。能力全，但明显超出第一版范围。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr) 280px;gap:10px;min-height:340px">
+      <div class="mock-sidebar">
+        Agents
+        <br><br>
+        - Builder Dog
+        <br>
+        - Reviewer Dog
+        <br><br>
+        Runs
+        <br><br>
+        - run-001
+        <br>
+        - run-002
+      </div>
+      <div class="mock-content">
+        Current Run Event Stream
+        <br><br>
+        runtime.started
+        <br>
+        step.started
+        <br>
+        output.chunk
+        <br>
+        input.requested
+      </div>
+      <div class="mock-sidebar">
+        Details
+        <br><br>
+        Status
+        <br>
+        Agent Profile
+        <br>
+        Permissions
+        <br>
+        Budget
+        <br>
+        Metadata
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>已经能体现“工作台”而不只是日志窗口。</li>
+      <li>足够支撑调试多 agent、多 run。</li>
+      <li>和我们已经定义的事件模型、profile、run 生命周期天然对齐。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>比单控制台多了一点 UI 结构成本。</li>
+      <li>第一版仍然不做复杂历史分析、市场、配置中心。</li>
+    </ul>
+  </div>
+</div>

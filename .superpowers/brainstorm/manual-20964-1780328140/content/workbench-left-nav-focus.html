@@ -1,0 +1,71 @@
+<h2>技术选型: 左侧栏先以 Agent 为中心还是以 Run 为中心</h2>
+<p class="subtitle">工作台已经确定是三栏结构。现在决定左侧主导航的第一版信息组织方式。</p>
+
+<div class="options">
+  <div class="option" data-choice="agent-centric" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Agent-centric</h3>
+      <p>先看有哪些狗狗 agent，再进入该 agent 下的 runs。适合强调角色和能力差异。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="run-centric" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Run-centric</h3>
+      <p>先看所有 runs，再回看它们属于哪个 agent。适合调试和任务跟踪。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="split-sections" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Split Sections</h3>
+      <p>左侧同时有 Agents 和 Runs 两个区块，互相关联但不强制层级。兼顾两者，适合第一版工作台。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: C</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="mock-sidebar">
+        Agents
+        <br><br>
+        - Builder Dog
+        <br>
+        - Reviewer Dog
+        <br>
+        - Ops Dog
+        <br><br>
+        Active Runs
+        <br><br>
+        - run-001 (Builder Dog)
+        <br>
+        - run-002 (Reviewer Dog)
+        <br><br>
+        Recent Runs
+        <br><br>
+        - run-000
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why C fits</h4>
+    <ul>
+      <li>你做的是多狗狗 agent 工作台，agent 视角不能丢。</li>
+      <li>调试时用户通常又更关心当前和最近的 runs。</li>
+      <li>比纯层级结构更灵活，也更符合第一版工作流。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>左侧信息设计稍微复杂一点。</li>
+      <li>要控制列表密度，避免左栏变成噪音区。</li>
+    </ul>
+  </div>
+</div>

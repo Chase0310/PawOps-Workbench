@@ -1,0 +1,64 @@
+<h2>技术选型: 哪些 CLI 细节要归一化，哪些保留为 metadata</h2>
+<p class="subtitle">适配层负责吸收 Codex CLI 和 Claude Code CLI 的差异，但不是所有差异都应该提升成统一契约。</p>
+
+<div class="options">
+  <div class="option" data-choice="normalize-almost-everything" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Normalize Almost Everything</h3>
+      <p>尽量把 CLI 差异都提成统一字段。上层最简单，但适配层会越来越重，也容易误抽象。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="normalize-critical-keep-rest" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Normalize Critical, Keep The Rest as Metadata</h3>
+      <p>只统一 run 控制和交互关键点，CLI 特有细节保留在 metadata 里，供调试和高级能力使用。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="metadata-first" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Metadata First</h3>
+      <p>大部分都先原样保留为 metadata，只统一极薄控制面。实现快，但上层长期会越来越脏。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>normalize these:</div>
+      <div style="padding-left:18px">started / completed / failed / interrupted</div>
+      <div style="padding-left:18px">output.chunk</div>
+      <div style="padding-left:18px">input.requested</div>
+      <div style="padding-left:18px">status.changed</div>
+      <div style="padding-left:18px">exit semantics</div>
+      <div></div>
+      <div>keep as metadata:</div>
+      <div style="padding-left:18px">raw CLI event names</div>
+      <div style="padding-left:18px">provider-specific warnings</div>
+      <div style="padding-left:18px">CLI version / binary info</div>
+      <div style="padding-left:18px">adapter-specific diagnostics</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>上层只依赖真正稳定、跨 CLI 的行为语义。</li>
+      <li>调试时仍能看到 CLI 原始细节，不会被适配层吞掉。</li>
+      <li>避免为了统一而发明虚假的通用概念。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>UI 如果想展示某些 CLI 特有能力，需要读 metadata。</li>
+      <li>要明确 metadata 只是补充信息，不能反向成为主契约。</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<h2>文档结构选项</h2>
+<p class="subtitle">先定义协作协议和文档骨架，再进入 AgentRuntime Core 的模块设计。</p>
+
+<div class="options">
+  <div class="option" data-choice="module-bundles" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Module Bundle</h3>
+      <p>每个模块一个目录，里面固定有 spec.md、tasks.md、checklist.md，必要时加 decisions.md。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="centralized-specs" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Centralized Specs</h3>
+      <p>所有 spec、tasks、checklist 分别放在 docs/specs、docs/tasks、docs/checklists，用文件名关联。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="rfc-adr" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>RFC + ADR</h3>
+      <p>每个大改动先写 RFC，跨模块决策写 ADR，适合多人长期维护但早期更重。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: Module Bundle + Lightweight ADR</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>AGENTS.md</div>
+      <div>docs/</div>
+      <div style="padding-left:18px">00-vision.md</div>
+      <div style="padding-left:18px">glossary.md</div>
+      <div style="padding-left:18px">modules/</div>
+      <div style="padding-left:36px">agent-runtime-core/</div>
+      <div style="padding-left:54px">spec.md</div>
+      <div style="padding-left:54px">tasks.md</div>
+      <div style="padding-left:54px">checklist.md</div>
+      <div style="padding-left:36px">agent-profile/</div>
+      <div style="padding-left:36px">coding-cli-adapter/</div>
+      <div style="padding-left:18px">adr/</div>
+      <div style="padding-left:36px">0001-runtime-core-first.md</div>
+    </div>
+  </div>
+</div>

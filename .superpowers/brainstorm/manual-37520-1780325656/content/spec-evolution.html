@@ -1,0 +1,39 @@
+<h2>Spec 如何承载演进？</h2>
+<p class="subtitle">关键问题：最终事实和讨论过程要不要放在同一个文件里。</p>
+
+<div class="options">
+  <div class="option" data-choice="single-spec-history" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Single Spec With History</h3>
+      <p>spec.md 同时放最终设计和完整讨论/变更记录。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="truth-plus-decisions" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Current Truth + Decision Log</h3>
+      <p>spec.md 只保留当前最终事实；decisions.md 记录讨论、方案、tradeoff 和为什么改。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="rfc-snapshots" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>RFC Snapshots</h3>
+      <p>每轮重要讨论都生成一个 RFC 快照，最终 spec 从被接受的 RFC 汇总而来。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:8px;font-family:ui-monospace,monospace;font-size:14px">
+      <div>docs/modules/agent-runtime-core/</div>
+      <div style="padding-left:18px">spec.md          # 当前事实: 最终读这个就能实现</div>
+      <div style="padding-left:18px">decisions.md     # 过程记录: 场景、方案、tradeoff、修订原因</div>
+      <div style="padding-left:18px">tasks.md         # 当前计划: 按什么顺序实现</div>
+      <div style="padding-left:18px">checklist.md     # 验收标准: 可观察、可执行</div>
+    </div>
+  </div>
+</div>

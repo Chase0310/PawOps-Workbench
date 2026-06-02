@@ -1,0 +1,56 @@
+<h2>技术选型: Runtime 执行引擎抽象</h2>
+<p class="subtitle">外围控制面已经清楚了。现在决定一个 run 内部是如何真正执行任务的。</p>
+
+<div class="options">
+  <div class="option" data-choice="cli-only-first" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>CLI Executor First</h3>
+      <p>第一版 runtime 只支持外部 coding CLI 执行器，例如 Codex、Claude Code、Gemini CLI。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="executor-interface" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Executor Interface</h3>
+      <p>runtime 面向统一执行器接口，第一版先实现 CLI executor，后续可以加 model loop executor。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="full-dual-engine" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Dual Engine from Day 1</h3>
+      <p>第一版同时支持 CLI executor 和内建 LLM tool-loop executor，能力最完整但复杂度最高。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">runtime-core orchestrates runs and events</div>
+      <div class="placeholder">executor interface defines start, input, interrupt, cleanup</div>
+      <div class="placeholder">v1 implementation: coding CLI executor</div>
+      <div class="placeholder">future implementation: model loop executor, background executor</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>先跑通 coding CLI，但不把 runtime 写死成“只是 CLI wrapper”。</li>
+      <li>和 agent profile 的未来扩展更匹配。</li>
+      <li>后续加内建 executor 时，不需要重写 runtime 控制面和事件模型。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>第一版要先定义执行器接口。</li>
+      <li>抽象过头会有风险，需要保持接口足够小。</li>
+    </ul>
+  </div>
+</div>

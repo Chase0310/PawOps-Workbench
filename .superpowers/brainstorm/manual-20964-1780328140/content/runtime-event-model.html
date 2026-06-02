@@ -1,0 +1,56 @@
+<h2>技术选型: Runtime 事件模型</h2>
+<p class="subtitle">Workbench、日志、trace、Web 调试都要消费同一套事件。先定事件边界，再定 API。</p>
+
+<div class="options">
+  <div class="option" data-choice="log-lines" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Log Lines First</h3>
+      <p>运行时只吐文本日志和少量状态更新。实现快，但 UI 和 trace 需要二次解析。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="typed-domain-events" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Typed Domain Events</h3>
+      <p>运行时输出结构化事件，如 run started、step started、tool called、CLI chunk、completed。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="otel-first" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>OpenTelemetry First</h3>
+      <p>直接以 span 和 telemetry 为核心。对分析强，但不适合作为产品 UI 的主事件总线。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B + OTel Bridge Later</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">Runtime emits typed domain events</div>
+      <div class="placeholder">Workbench subscribes to event stream for UI</div>
+      <div class="placeholder">Log service derives human-readable logs from events</div>
+      <div class="placeholder">Trace service converts selected events into spans later</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>UI 不需要解析日志文本。</li>
+      <li>CLI adapter 和 MCP adapter 都能接入同一事件管道。</li>
+      <li>后续加 trace、replay、persist 都更自然。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>前期要先设计事件 schema。</li>
+      <li>需要克制事件种类，避免过度建模。</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<h2>技术选型: Runtime 服务挂载方式</h2>
+<p class="subtitle">控制面和生命周期都已收敛。现在决定 memory、log、trace、tool、MCP 等服务怎么挂到 runtime 上。</p>
+
+<div class="options">
+  <div class="option" data-choice="constructor-deps" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Constructor Dependencies</h3>
+      <p>创建 runtime 时一次性传入 services 和 registries。最直接，最适合第一版。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="plugin-system" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Plugin System First</h3>
+      <p>所有能力都通过插件注册和 hook 挂载。扩展强，但第一版抽象会偏重。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="service-container" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Service Container</h3>
+      <p>先做一个 DI 容器或 registry，通过 token 解析依赖。适合大系统，但前期复杂。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: A with explicit extension points</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">createRuntime({ store, eventBus, logger, tracer, toolRegistry, mcpRegistry, profileRegistry })</div>
+      <div class="placeholder">core only depends on interfaces</div>
+      <div class="placeholder">later: plugin layer can wrap these extension points</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why A fits</h4>
+    <ul>
+      <li>接口边界清楚，最容易测试。</li>
+      <li>和嵌入式 package 形态天然匹配。</li>
+      <li>不会过早引入插件系统复杂度。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>后续如果扩展点很多，需要再抽出 plugin 层。</li>
+      <li>构造参数需要保持克制，避免膨胀。</li>
+    </ul>
+  </div>
+</div>

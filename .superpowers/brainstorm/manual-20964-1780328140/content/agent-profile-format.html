@@ -1,0 +1,56 @@
+<h2>技术选型: Agent Profile 定义格式</h2>
+<p class="subtitle">Runtime core 的主骨架已基本收敛。现在决定每只狗狗 agent 怎么被定义和加载。</p>
+
+<div class="options">
+  <div class="option" data-choice="ts-profile-module" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>TypeScript Profile Module</h3>
+      <p>每个 agent 用 TS 文件导出 profile。表达力最强，但配置和代码耦合更深。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="declarative-manifest" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Declarative Manifest</h3>
+      <p>每个 agent 用 YAML 或 JSON manifest 描述名称、prompt、skills、MCP、executor、权限、预算。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="hybrid-manifest-plus-hooks" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Hybrid: Manifest + Optional Hooks</h3>
+      <p>主定义走声明式 manifest，少量高级行为可挂可选 TS hook。兼顾可配置性和扩展性。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: C</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">profile manifest owns stable fields: id, name, role, executor, skills, MCP, permissions, budget</div>
+      <div class="placeholder">runtime validates manifest with schema at load time</div>
+      <div class="placeholder">advanced behavior uses optional hook modules only when truly needed</div>
+      <div class="placeholder">most agents stay data-driven and easy to inspect</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why C fits</h4>
+    <ul>
+      <li>大多数 agent 可以纯配置化定义，方便扩展和审查。</li>
+      <li>不会被纯声明式格式卡死，少数复杂 agent 仍可扩展。</li>
+      <li>比“全部写成 TS 模块”更适合做目录、市场和共享模板。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>需要定义 manifest schema 和 hook 边界。</li>
+      <li>要克制 hook 能力，避免重新退化成全代码配置。</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<h2>技术选型: Run 生命周期</h2>
+<p class="subtitle">控制面已定为 Method API。现在决定一个 run 从创建到结束要经历哪些阶段。</p>
+
+<div class="options">
+  <div class="option" data-choice="minimal-lifecycle" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Minimal Lifecycle</h3>
+      <p>created -&gt; running -&gt; completed | failed | cancelled。先保证最小闭环。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="interactive-lifecycle" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Interactive Lifecycle</h3>
+      <p>created -&gt; running -&gt; waiting-for-input | paused -&gt; completed | failed | cancelled。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="durable-lifecycle" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Durable Lifecycle</h3>
+      <p>queued、resuming、retrying、timed-out、orphaned 都先建模，偏后台控制平面。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">created</div>
+      <div class="placeholder">running</div>
+      <div class="placeholder">waiting-for-input or paused</div>
+      <div class="placeholder">completed / failed / cancelled</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>coding CLI 和后续人机交互会需要等待输入。</li>
+      <li>比 A 更贴近真实工作流，但没有 C 那么重。</li>
+      <li>桌面工作台更容易呈现运行中的状态。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>状态管理比最小闭环复杂一点。</li>
+      <li>要区分 paused 和 waiting-for-input 的语义。</li>
+    </ul>
+  </div>
+</div>

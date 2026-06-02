@@ -1,0 +1,57 @@
+<h2>技术选型: 中断与取消模型</h2>
+<p class="subtitle">我们已经支持 pause、cancel、waiting-for-input。现在决定 runtime 如何中断正在运行的 executor。</p>
+
+<div class="options">
+  <div class="option" data-choice="hard-kill-only" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Hard Kill Only</h3>
+      <p>取消时直接终止执行进程。实现简单，但会牺牲交互性和安全退出。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="soft-then-hard" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Soft Interrupt, Then Hard Kill</h3>
+      <p>先请求优雅中断，超时后再强制终止。适合 CLI executor 的真实行为。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="executor-specific-policy" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Executor-specific Policy</h3>
+      <p>每种 executor 自己定义 pause/cancel 行为，runtime 不统一约束。灵活但会破坏一致性。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup">
+  <div class="mockup-header">推荐: B</div>
+  <div class="mockup-body">
+    <div style="display:grid;gap:10px">
+      <div class="placeholder">runtime.cancel(runId)</div>
+      <div class="placeholder">executor receives soft interrupt request</div>
+      <div class="placeholder">runtime emits cancelling event</div>
+      <div class="placeholder">if executor exits in time -&gt; cancelled</div>
+      <div class="placeholder">if timeout expires -&gt; hard kill and cancelled</div>
+    </div>
+  </div>
+</div>
+
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why B fits</h4>
+    <ul>
+      <li>更贴近真实 coding CLI 的中断方式。</li>
+      <li>避免一上来就粗暴 kill 进程。</li>
+      <li>runtime 仍然保留最后兜底能力。</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Accepted cost</h4>
+    <ul>
+      <li>要定义 soft interrupt 的接口和超时策略。</li>
+      <li>不同 CLI 对优雅退出支持程度不同，需要适配层处理。</li>
+    </ul>
+  </div>
+</div>
